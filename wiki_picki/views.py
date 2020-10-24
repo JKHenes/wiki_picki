@@ -7,6 +7,7 @@ def welcome():
 
 @app.route('/search', methods=['GET', 'POST'])
 def decision(name=None):
-    if(request.method == 'POST')
+    if request.method == 'POST':
+        if
     return render_template('searchMenu.jinja', name=name)
 
