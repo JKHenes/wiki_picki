@@ -1,0 +1,12 @@
+{% extends "bootstrapbase.jinja" %}
+{% block body %}
+<div class="d-flex flex-column">
+  <div class="align-self-center">
+    {% if name %}
+      <h1>Hello {{ name }}!</h1>
+    {% else %}
+      <h1>Hello, World!</h1>
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}

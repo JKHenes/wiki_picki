@@ -1,12 +1,12 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, session, redirect
 from wiki_picki import app
 
 @app.route('/')
 def welcome():
-    return render_template('welcomeScreen.html')
+    return render_template('welcomeScreen.jinja')
 
-@app.route('/search')
+@app.route('/search', methods=['GET', 'POST'])
 def decision(name=None):
-    return render_template('searchMenu.html', name=name)
+    if(request.method == 'POST')
+    return render_template('searchMenu.jinja', name=name)
 
