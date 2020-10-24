@@ -1,4 +1,4 @@
-import sys, http.client, urllib.request, urllib.parse, urllib.error, json
+import sys, http.client, urllib.request, urllib.parse, urllib.error, json, re, random
 
 from pprint import pprint
 
@@ -32,6 +32,10 @@ def do_search(query, website):
 
     return search_result
 
+def get_random_chara():
+    id = [149610, 171415,20601,84540,172886,174980,146592,145006,3177,175147,3689,36402,175143,13739]
+    return random.choice(id)
+
 # Searches a website, and tries to find the title, url, and content of the first article it finds. 
 def get_info(query,website):
 
@@ -44,21 +48,32 @@ def get_info(query,website):
 
     if search_data is None:
         search_data = do_search(query[0:3], website)
-        if search_data is None:
-            print("No data for you wahh") # replace this with a random article?
-            sys.exit()
 
-    search_data = search_data.get("items")[0]
-
-    article_id = search_data.get("id")
-    title = search_data.get("title")
-    url = search_data.get("url")
-
+    name_rx = "\\w+ [tT]he \\w+"
+    matcher = None
+    for items in search_data.get("items"):
+        matcher = re.match(name_rx,str(items.get("title")))
+        if matcher:
+            search_data = items
+            print(items.get("title"))
+            break
+    
+    # if you cant find a match get a random article
+    if matcher is not None:
+        article_id = search_data.get("id")
+        url = search_data.get("url")
+    else:
+        article_id = get_random_chara()
+        
+    
     # Shouuuuld be fine? if there was no data it would've exited out before.
     # Gets the specific article from an article
     article_data = get_url(website, '/api/v1/Articles/AsSimpleJson?id=' + str(article_id))
     article_data = article_data.decode("utf-8")
     article_data = json.loads(article_data)
+
+    title = article_data.get("sections")[0].get("title")
+    url = "https://"+ website + "/" + title.replace(" ", "_")
 
     text = ""
     # Print out text content of wiki, goes through each 'section'
@@ -69,6 +84,7 @@ def get_info(query,website):
                 text += fragment + "\n"
         except IndexError as e:
             pass
+
 
     # Debug prints
     #print(title)
