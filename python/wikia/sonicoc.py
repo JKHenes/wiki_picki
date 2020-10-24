@@ -22,7 +22,7 @@ def get_url(domain, url):
 
 if __name__ == '__main__':
 
-    query = "Somerset"
+    query = "Jake"
     website ='sonicfanchara.fandom.com'
 
     # Make sure that the query can actually parsed by the get request
