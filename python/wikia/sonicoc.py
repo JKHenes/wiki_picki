@@ -33,12 +33,29 @@ def do_search(query, website):
     return search_result
 
 def get_random_chara():
-    id = [149610, 171415,20601,84540,172886,174980,146592,145006,3177,175147,3689,36402,175143,13739]
+    id = [149610, 171415,20601,84540,172886,174980,146592,145006,3177,175147,3689,36402,175143,13739,148487] #THIS IS SPECIFIC TO THE SONIC WEBSITE
     return random.choice(id)
+
+def sonic_name_matcher(result):
+    # ALSO SPECIFIC TO SONIC
+    name_rx = "\\w+ [tT]he \\w+"
+    matcher = None
+    for items in result.get("items"):
+        matcher = re.match(name_rx,str(items.get("title")))
+        if matcher:
+            result = items
+            break
+
+    # if you cant find a match get a random article
+    if matcher is not None:
+        article_id = result.get("id")
+    else:
+        article_id = get_random_chara()
+
+    return result, article_id
 
 # Searches a website, and tries to find the title, url, and content of the first article it finds. 
 def get_info(query,website):
-
 
     # Make sure that the query can actually parsed by the get request
     query = urllib.parse.quote_plus(query)
@@ -46,25 +63,11 @@ def get_info(query,website):
     # Gets the first search result from a query
     search_data = do_search(query, website)
 
-    if search_data is None:
-        search_data = do_search(query[0:3], website)
-
-    name_rx = "\\w+ [tT]he \\w+"
-    matcher = None
-    for items in search_data.get("items"):
-        matcher = re.match(name_rx,str(items.get("title")))
-        if matcher:
-            search_data = items
-            print(items.get("title"))
-            break
-    
-    # if you cant find a match get a random article
-    if matcher is not None:
+    if website == "sonicfanchara.fandom.com": # Specific Sonic character parsing
+        search_data,article_id = sonic_name_matcher(search_data)
+    else:                                     # Will just select the first article 
+        search_data = search_data.get("items")[0]
         article_id = search_data.get("id")
-        url = search_data.get("url")
-    else:
-        article_id = get_random_chara()
-        
     
     # Shouuuuld be fine? if there was no data it would've exited out before.
     # Gets the specific article from an article
@@ -84,7 +87,6 @@ def get_info(query,website):
                 text += fragment + "\n"
         except IndexError as e:
             pass
-
 
     # Debug prints
     #print(title)
