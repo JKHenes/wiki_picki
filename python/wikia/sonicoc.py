@@ -32,12 +32,11 @@ def do_search(query, website):
 
     return search_result
 
-def get_random_chara():
-    id = [149610, 171415,20601,84540,172886,174980,146592,145006,3177,175147,3689,36402,175143,13739,148487] #THIS IS SPECIFIC TO THE SONIC WEBSITE
+def get_random_chara(): #THIS IS SPECIFIC TO THE SONIC WEBSITE
+    id = [149610, 171415,20601,84540,172886,174980,146592,145006,3177,175147,3689,36402,175143,13739,148487] 
     return random.choice(id)
 
-def sonic_name_matcher(result):
-    # ALSO SPECIFIC TO SONIC
+def sonic_name_matcher(result): # ALSO SPECIFIC TO SONIC
     name_rx = "\\w+ [tT]he \\w+"
     matcher = None
     for items in result.get("items"):
@@ -65,7 +64,7 @@ def get_info(query,website):
 
     if website == "sonicfanchara.fandom.com": # Specific Sonic character parsing
         search_data,article_id = sonic_name_matcher(search_data)
-    else:                                     # Will just select the first article 
+    else:                                     # Generic approach: will just select the first article 
         search_data = search_data.get("items")[0]
         article_id = search_data.get("id")
     
