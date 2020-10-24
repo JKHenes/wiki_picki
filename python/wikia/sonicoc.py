@@ -2,9 +2,8 @@ import sys, http.client, urllib.request, urllib.parse, urllib.error, json
 
 from pprint import pprint
 
-
 def get_url(domain, url):
-
+    headers = {}
     try:
         conn = http.client.HTTPSConnection(domain)
         conn.request("GET", url, "", headers)
@@ -27,23 +26,15 @@ def do_search(query, website):
 
     search_result = search_result.decode("utf-8")
     search_result = json.loads(search_result)
-    #print(search_result.get("items")) debug
     if not search_result.get("items"):
         #print("No data :(")
         return None
 
     return search_result
 
+# Searches a website, and tries to find the title, url, and content of the first article it finds. 
+def get_info(query):
 
-if __name__ == '__main__':
-    #TODO: only look through character pages
-
-    if len(sys.argv) != 2:
-        print('Please provide wiki query')
-        sys.exit()
-
-    headers = {}
-    query = sys.argv[1]
     website = 'sonicfanchara.fandom.com'
 
     # Make sure that the query can actually parsed by the get request
@@ -59,7 +50,6 @@ if __name__ == '__main__':
             sys.exit()
 
     search_data = search_data.get("items")[0]
-    # pprint(search) #debug print
 
     article_id = search_data.get("id")
     title = search_data.get("title")
@@ -71,17 +61,19 @@ if __name__ == '__main__':
     article_data = article_data.decode("utf-8")
     article_data = json.loads(article_data)
 
-
-    print(title)
-    print("URL: " + url)
-
-    # Print out text content of wiki
+    text = ""
+    # Print out text content of wiki, goes through each 'section'
     for sections in article_data.get("sections"):
         try:
-            text = sections.get("content")[0].get("text")
-            if text is not None:
-                print(text)
+            fragment = sections.get("content")[0].get("text")
+            if fragment is not None:
+                text += fragment + "\n"
         except IndexError as e:
             pass
 
-    #print("Done")
+    # Debug prints
+    #print(title)
+    #print(url)
+    #print(text[:-1])
+
+    return (title, url, text[:-1])
