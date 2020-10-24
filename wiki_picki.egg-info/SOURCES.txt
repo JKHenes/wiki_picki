@@ -1,0 +1,9 @@
+setup.py
+wiki_picki/__init__.py
+wiki_picki/picki_webpage.py
+wiki_picki/views.py
+wiki_picki.egg-info/PKG-INFO
+wiki_picki.egg-info/SOURCES.txt
+wiki_picki.egg-info/dependency_links.txt
+wiki_picki.egg-info/requires.txt
+wiki_picki.egg-info/top_level.txt
