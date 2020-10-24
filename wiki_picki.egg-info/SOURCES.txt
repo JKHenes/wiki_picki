@@ -1,4 +1,5 @@
 setup.py
+wiki_picki/sonicoc.py
 wiki_picki/__init__.py
 wiki_picki/picki_webpage.py
 wiki_picki/views.py

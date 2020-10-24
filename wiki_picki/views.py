@@ -1,5 +1,7 @@
 from flask import Flask, render_template, session, redirect, url_for, request
-from wiki_picki import app
+from subprocess import call
+from wiki_picki import *
+from wiki_picki.sonicoc import *
 
 @app.route('/')
 def welcome():
@@ -9,7 +11,7 @@ def welcome():
 def decision(name=None):
     if request.method == 'POST':
         if 'searches' in session:
-            session['searches'].append(0, [request.form['search'], request.form['website']])
+            session['searches'].append( [request.form['search'], request.form['website']])
         else:
             session['searches'] = [[request.form['search'], request.form['website']]]
         return redirect(url_for('result'))
@@ -19,4 +21,6 @@ def decision(name=None):
 def result():
     search = session['searches'][0][0]
     website = session['searches'][0][1]
-    return render_template('searchresult.jinja', search=search, website=website)
+    data=get_info(search,website)
+    
+    return render_template('searchresult.jinja', title=data[0],url=data[1],text=data[2])
