@@ -6,7 +6,7 @@ from wiki_picki import app
 def welcome():
     return render_template('welcomeScreen.html')
 
-@app.route('/main/search')
+@app.route('/search')
 def decision(name=None):
     return render_template('searchMenu.html', name=name)
 

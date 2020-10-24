@@ -4,4 +4,4 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 Werkzeug==1.0.1
--e git+git@github.com:JKHenes/wiki_picki.git@0b554139168a4920965fd5ecf0ef3b107cad1b00#egg=wiki_picki
+wiki_picki
