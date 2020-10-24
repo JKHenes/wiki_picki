@@ -22,8 +22,8 @@ def get_url(domain, url):
 
 if __name__ == '__main__':
 
-    query = "Somerset"
-    website ='sonicfanchara.fandom.com'
+    query = "Jake"
+    website ='dailylifewithamonstergirl.fandom.com'
 
     # Make sure that the query can actually parsed by the get request
     query = urllib.parse.quote_plus(query)
