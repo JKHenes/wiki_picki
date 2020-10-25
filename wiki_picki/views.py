@@ -27,5 +27,5 @@ def result():
     website = session['searches'][0][1]
     print("attempting" + search + "   " + website)
     data=get_info(search,website)
-    
-    return render_template('searchresult.jinja', title=data[0],url=data[1],text=data[2])
+
+    return render_template('searchresult.jinja', title=data[0],url=data[1],text=data[2],image_src=data[3])

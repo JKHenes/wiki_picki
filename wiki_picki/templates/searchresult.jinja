@@ -1,6 +1,10 @@
 {% extends "bootstrapBase.jinja" %}
 {% block body %}
-  <h1>  {{title}}</h1>
-  <p>  {{url}}</p>
+  <h1>  <center ><a href={{url}}>{{title}}</a></center></h1>
+  <p>  {%if image_src%}
+  <center>
+	<img src={{image_src}} alt={{title}}>
+	</center>
+	 	{%endif%}</p>
 	<p>{{text}}</p>
 {% endblock %}

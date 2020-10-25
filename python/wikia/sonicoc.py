@@ -83,9 +83,14 @@ def get_info(query,website):
     # Print out text content of wiki, goes through each 'section'
     for sections in article_data.get("sections"):
         try:
+            fragment_title = sections. get("content")[0].get("title")
             fragment = sections.get("content")[0].get("text")
             if fragment is not None:
-                text += fragment + "\n"
+                if fragment_title == None:
+                    fragment_title = ""
+                else:
+                    fragment_title += ": "
+                text += fragment_title + fragment + "\n"
         except IndexError as e:
             pass
 
@@ -96,6 +101,7 @@ def get_info(query,website):
     except IndexError as e:
         image = None
 
+    #print(text)
     # Debug prints
     #print(title)
     #print(url)
