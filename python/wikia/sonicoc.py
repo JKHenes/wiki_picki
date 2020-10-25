@@ -74,9 +74,11 @@ def get_info(query,website):
     article_data = article_data.decode("utf-8")
     article_data = json.loads(article_data)
 
+    # Get title and URL
     title = article_data.get("sections")[0].get("title")
     url = "https://"+ website + "/" + title.replace(" ", "_")
 
+    # Get some text content
     text = ""
     # Print out text content of wiki, goes through each 'section'
     for sections in article_data.get("sections"):
@@ -87,9 +89,16 @@ def get_info(query,website):
         except IndexError as e:
             pass
 
+    # Get image source if it can find one, None if it can't
+    image =  None
+    try:
+        image =  article_data.get("sections")[0].get("images")[0].get("src")
+    except IndexError as e:
+        image = None
+
     # Debug prints
     #print(title)
     #print(url)
     #print(text[:-1])
 
-    return (title, url, text[:-1])
+    return (title, url, text[:-1], image)
